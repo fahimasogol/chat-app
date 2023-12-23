@@ -17,9 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+import chat
+from users import urls
+from chat import urls
 import users
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user/', include(users.urls))
+    path('user/', include(users.urls)),
+    path('chat/', include(chat.urls)),
 ]

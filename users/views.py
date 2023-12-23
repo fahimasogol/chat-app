@@ -17,16 +17,25 @@ from .serializers import RegistrationSerializer, LoginSerializer
 class RegistrationAPIView(generics.CreateAPIView):
     serializer_class = RegistrationSerializer
 
-    def perform_create(self, serializer):
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         user = serializer.save()
+
         token, created = Token.objects.get_or_create(user=user)
+        headers = self.get_success_headers(serializer.data)
         return Response({
             'token': token.key,
             'user_id': user.pk,
             'email': user.email
-        }, status=status.HTTP_201_CREATED)
+        }, status=status.HTTP_201_CREATED, headers=headers)
 
 
+# The line headers = self.get_success_headers(serializer.data) in a Django Rest Framework (DRF) view is
+# used to generate a set of HTTP headers that should be included in the response after a successful operation,
+# typically a POST request that creates a new resource.
+# The line headers = self.get_success_headers(serializer.data) in your DRF view is about enhancing the
+# HTTP response with useful headers
 class LoginAPIView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = LoginSerializer(data=request.data)

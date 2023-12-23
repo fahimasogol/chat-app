@@ -1,0 +1,24 @@
+<!-- template.html -->
+{% load static %}
+
+<html>
+<head>
+    <!-- ... other head elements ... -->
+</head>
+<body>
+<!-- template.html -->
+<div id="chat-log">
+    <!-- Messages will be appended here -->
+</div>
+
+    <!-- Your HTML content -->
+<form id="chat-form">
+    <input type="text" id="chat-message-input" autocomplete="off" required>
+    <input type="submit" value="Send">
+</form>
+
+    <!-- Include JavaScript file -->
+    <script src="{% static 'js/app.js' %}"></script>
+
+</body>
+</html>
